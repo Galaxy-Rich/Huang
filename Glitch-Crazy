@@ -31,7 +31,7 @@ if not getgenv().TransparencyEnabled then
 end
 
 local Window = WindUI:CreateWindow({
-    Title = "Glitch - Rebirth",
+    Title = "Team | Vuzo Zilux",
     Icon = "rbxassetid://76676105086715", 
     Author = "By ZorVex",
     Folder = "Vz Hub",
@@ -40,7 +40,7 @@ local Window = WindUI:CreateWindow({
     Theme = "Light",
     Resizable = true,
     SideBarWidth = 150,
-    BackgroundImageTransparency = 0.8,
+    BackgroundImageTransparency = 0.9,
     HideSearchBar = true,
     ScrollBarEnabled = true,
     User = {
@@ -56,7 +56,7 @@ local Window = WindUI:CreateWindow({
             WindUI:SetTheme(newTheme)
            
             WindUI:Notify({
-                Title = "Zorvex | Leader Of Vuzo Zilux",
+                Title = "ZorVex | Leader Of Vuzo Zilux",
                 Duration = 8
             })
         end,
@@ -69,29 +69,24 @@ Window:EditOpenButton({
     Enabled = false
 })
 
----------------------------------------------------------
---             LOGIKA TOMBOL SERET (UI BUTTON)
----------------------------------------------------------
-
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "UIBUTTON"
 ScreenGui.Parent = game.CoreGui
 local ImgBtn = Instance.new("ImageButton")
 ImgBtn.Parent = ScreenGui
 ImgBtn.Size = UDim2.new(0, 60, 0, 60)
-ImgBtn.Position = UDim2.new(0, 500, 0, 10) -- Pindahkan ke posisi yang lebih terlihat (kiri atas)
+ImgBtn.Position = UDim2.new(0, 400, 0, 10)
 ImgBtn.BackgroundTransparency = 1
 ImgBtn.Image = "rbxassetid://88635292278521" 
 ImgBtn.ZIndex = 9999
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 15)
 UICorner.Parent = ImgBtn
-local isOpen = true -- Status awal: menu terbuka, tombol akan menutupnya saat diklik
+local isOpen = true
 
--- Fungsi Klik: Mengganti simulasi tombol menjadi Toggling Window
 ImgBtn.MouseButton1Click:Connect(function()
     local shrink = TweenService:Create(ImgBtn, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-        Size = UDim2.new(0, 55, 0, 55)
+        Size = UDim2.new(0, 50, 0, 50)
     })
     local grow = TweenService:Create(ImgBtn, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         Size = UDim2.new(0, 60, 0, 60)
@@ -100,12 +95,10 @@ ImgBtn.MouseButton1Click:Connect(function()
     shrink.Completed:Wait()
     grow:Play()
     
-    -- TOGGLE: Buka/Tutup Jendela Menu WindUI
     Window:Toggle()
     isOpen = not isOpen
 end)
 
--- Logika Seret (Dragging)
 local dragging = false
 local dragInput, dragStart, startPos
 local function update(input)
@@ -141,615 +134,22 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
---Window:SetUIScale(.8)
-
--- */  Tags  /* --
 do
     Window:Tag({
-        Title = "--> VIP <--",
+        Title = "--> Glitch Pet <--",
         Color = Color3.fromHex("#000000")
     })
 end
 
-local PushRebb = Window:Section({
-    Title = "Push Rebirth",
-})
-
--- Rebirth Tab
-local rebirthTab = PushRebb:Tab({Title = "Rebirth", Icon = "refresh-cw"})
-
--- Logika penghapusan portal langsung aktif saat skrip dimuat
-for _, portal in pairs(game:GetDescendants()) do
-    if portal.Name == "RobloxForwardPortals" then
-        portal:Destroy()
-    end
-end
-
-if _G.AdRemovalConnection then
-    _G.AdRemovalConnection:Disconnect()
-end
-
-_G.AdRemovalConnection = game.DescendantAdded:Connect(function(descendant)
-    if descendant.Name == "RobloxForwardPortals" then
-        descendant:Destroy()
-    end
-end)
-
--- Notifikasi langsung (opsional, bisa dihapus jika tidak diinginkan)
-WindUI:Notify({
-    Title = "Ads Delete",
-    Content = "Portal Ads Delete"
-})
-
--- Tombol tetap ada sebagai opsi manual (opsional, bisa dihapus jika tidak diperlukan)
-rebirthTab:Button({
-    Title = "Delete Portals",
-    Callback = function()
-        -- Callback kosong atau tambahkan logika tambahan jika diperlukan
-        print("Manual delete triggered (already active automatically)")
-    end
-})
-
--- Gym farm Section
-local Farmingg = rebirthTab:Section({
-Title = "Rebirth Target",
-Icon = "crosshair"})
-
-local rebirthTarget = 0
-local rebirthingToTarget = false
-local teleportActive = false
-_G.FastWeight = false
-_G.autoSizeActive = false
-
-rebirthTab:Input({
-    Title = "Rebirth Target",
-    Callback = function(text)
-        rebirthTarget = tonumber(text) or 0
-    end
-})
-
-rebirthTab:Toggle({
-    Title = "Auto Rebirth Target",
-    Callback = function(bool)
-        rebirthingToTarget = bool
-
-        task.spawn(function()
-            while rebirthingToTarget do
-                local leaderstats = player:FindFirstChild("leaderstats")
-                local rebirths = leaderstats and leaderstats:FindFirstChild("Rebirths")
-
-                if rebirths and rebirths.Value >= rebirthTarget then
-                    rebirthingToTarget = false
-                    break
-                end
-
-                ReplicatedStorage.rEvents.rebirthRemote:InvokeServer("rebirthRequest")
-                task.wait(0.1)
-            end
-        end)
-    end
-})
-
-rebirthTab:Toggle({
-    Title = "Auto Rebirth Infinity",
-    Callback = function(bool)
-        local isAutoRebirthing = bool
-
-        task.spawn(function()
-            while isAutoRebirthing do 
-                ReplicatedStorage.rEvents.rebirthRemote:InvokeServer("rebirthRequest")
-                task.wait(0.1) 
-            end
-        end)
-    end
-})
-
-rebirthTab:Toggle({
-    Title = "Hide Frame",
-    Callback = function(bool)
-        for _, obj in pairs(ReplicatedStorage:GetChildren()) do
-            if obj.Name:match("Frame$") then
-                obj.Visible = not bool
-            end
-        end
-    end
-})
-
--- Rebirth Tab
-local farmTab = PushRebb:Tab({Title = "Farming", Icon = "swords"})
-
--- Gym farm Section
-local Farmingg = farmTab:Section({
-Title = "Farming",
-Icon = "dumbbell"})
-
-local function activateProteinEgg()
-    local tool = player.Character:FindFirstChild("Protein Egg") or player.Backpack:FindFirstChild("Protein Egg")
-    if tool then
-        muscleEvent:FireServer("proteinEgg", tool)
-    end
-end
-
-local running = false
-
-task.spawn(function()
-    while true do
-        if running then
-            activateProteinEgg()
-            task.wait(1800)
-        else
-            task.wait(1)
-        end
-    end
-end)
-
-farmTab:Toggle({
-    Title = "Auto Eat Egg | 30mins",
-    Desc = " Get 2x Strength | 30 Minute",
-    Callback = function(state)
-        running = state
-        if state then
-            activateProteinEgg()
-        end
-    end
-})
-
-farmTab:Toggle({
-    Title = "Auto Weight",
-    Callback = function(bool)
-        _G.FastWeight = bool
-
-        if bool then
-            task.spawn(function()
-                while _G.FastWeight do
-                    local char = player.Character
-                    if char and not char:FindFirstChild("Weight") then
-                        local weightTool = player.Backpack:FindFirstChild("Weight")
-                        if weightTool then
-                            if weightTool:FindFirstChild("repTime") then
-                                weightTool.repTime.Value = 0
-                            end
-                            char.Humanoid:EquipTool(weightTool)
-                        end
-                    elseif char and char:FindFirstChild("Weight") then
-                        local equipped = char:FindFirstChild("Weight")
-                        if equipped:FindFirstChild("repTime") then
-                            equipped.repTime.Value = 0
-                        end
-                    end
-                    task.wait(0.1)
-                end
-            end)
-
-            task.spawn(function()
-                while _G.FastWeight do
-                    player.muscleEvent:FireServer("rep")
-                    task.wait(0)
-                end
-            end)
-        else
-            local char = player.Character
-            local equipped = char and char:FindFirstChild("Weight")
-            if equipped then
-                if equipped:FindFirstChild("repTime") then
-                    equipped.repTime.Value = 1
-                end
-                equipped.Parent = player.Backpack
-            end
-            local backpackTool = player.Backpack:FindFirstChild("Weight")
-            if backpackTool and backpackTool:FindFirstChild("repTime") then
-                backpackTool.repTime.Value = 1
-            end
-        end
-    end
-})
-
-farmTab:Toggle({
-    Title = "Auto Size 1",
-    Callback = function(bool)
-        _G.autoSizeActive = bool
-        if bool then
-            task.spawn(function()
-                while _G.autoSizeActive and task.wait() do
-                    ReplicatedStorage.rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 0)
-                end
-            end)
-        end
-    end
-})
-
-local targetPosition = CFrame.new(4471, 119, -8836)
-farmTab:Toggle({
-    Title = "Auto Save Zone",
-    Callback = function(enabled)
-        teleportActive = enabled
-    end
-})
-
-task.spawn(function()
-    while true do
-        if teleportActive then
-            local char = player.Character or player.CharacterAdded:Wait()
-            local hrp = char:WaitForChild("HumanoidRootPart")
-            if (hrp.Position - targetPosition.Position).Magnitude > 5 then
-                hrp.CFrame = targetPosition
-            end
-        end
-        task.wait(0.01)
-    end
-end)
-
-player.CharacterAdded:Connect(function(char)
-    char:WaitForChild("HumanoidRootPart")
-    task.wait(2)
-    warn("[RESPAWN] Character respawned â€” continuing automation...")
-
-    if _G.FastWeight then
-        task.spawn(function()
-            while _G.FastWeight do
-                local c = player.Character
-                if c and not c:FindFirstChild("Weight") then
-                    local tool = player.Backpack:FindFirstChild("Weight")
-                    if tool then
-                        c.Humanoid:EquipTool(tool)
-                    end
-                end
-                player.muscleEvent:FireServer("rep")
-                task.wait(0.1)
-            end
-        end)
-    end
-
-    if _G.autoSizeActive then
-        task.spawn(function()
-            while _G.autoSizeActive do
-                ReplicatedStorage.rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 0)
-                task.wait(0.01)
-            end
-        end)
-    end
-
-    if teleportActive then
-        task.spawn(function()
-            local hrp = char:WaitForChild("HumanoidRootPart")
-            while teleportActive do
-                if (hrp.Position - targetPosition.Position).Magnitude > 5 then
-                    hrp.CFrame = targetPosition
-                end
-                task.wait(0.01)
-            end
-        end)
-    end
-end)
-
-local Players = game:GetService("Players")
-local VirtualUser = game:GetService("VirtualUser")
-local LocalPlayer = Players.LocalPlayer
-
-_G.afkGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
-_G.afkGui.Name = "AntiAFKGui"
-_G.afkGui.ResetOnSpawn = true
-
-farmTab:Toggle({
-    Title = "Anti-AFK",
-    Callback = function(state)
-        if state then
-            local VirtualUser = game:GetService("VirtualUser")
-
-            _G.afkGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-            _G.afkGui.Name = "AntiAFKGui"
-            _G.afkGui.ResetOnSpawn = false
-
-            local timer = Instance.new("TextLabel", _G.afkGui)
-            timer.Size = UDim2.new(0, 200, 0, 30)
-            timer.Position = UDim2.new(1, -210, 0, -20)
-            timer.Text = "0:00:00"
-            timer.TextColor3 = Color3.fromRGB(255, 255, 255)
-            timer.Font = Enum.Font.GothamBold
-            timer.TextSize = 25
-            timer.BackgroundTransparency = 1
-            timer.TextTransparency = 0
-            
-            -- Outline untuk timer
-local timerStroke = Instance.new("UIStroke", timer)
-timerStroke.Thickness = 1
-timerStroke.Color = Color3.fromRGB(39, 39, 39)
-
-            local startTime = tick()
-
-            task.spawn(function()
-                while _G.afkGui and _G.afkGui.Parent do
-                    local elapsed = tick() - startTime
-                    local h = math.floor(elapsed / 3600)
-                    local m = math.floor((elapsed % 3600) / 60)
-                    local s = math.floor(elapsed % 60)
-                    timer.Text = string.format("%02d:%02d:%02d", h, m, s)
-                    task.wait(1)
-                end
-            end)
-            
-            _G.afkConnection = player.Idled:Connect(function()
-                VirtualUser:Button2Down(Vector2.new(), workspace.CurrentCamera.CFrame)
-                task.wait(1)
-                VirtualUser:Button2Up(Vector2.new(), workspace.CurrentCamera.CFrame)
-            end)
-        else
-            if _G.afkConnection then
-                _G.afkConnection:Disconnect()
-                _G.afkConnection = nil
-            end
-            if _G.afkGui then
-                _G.afkGui:Destroy()
-                _G.afkGui = nil
-            end
-        end
-    end
-})
-
--- Rebirth Tab
-local UltimateTab = PushRebb:Tab({Title = "Ultimate", Icon = "omega"})
-
--- Gym farm Section
-local Farmingg = UltimateTab:Section({
-Title = "Upgrade Ultimate",
-Icon = "sparkles"})
-
-local ultimateOptions = {
-    "+1 Daily Spin",
-    "+1 Pet Slot",
-    "+10 Item Capacity",
-    "+5% Rep Speed",
-    "Demon Damage",
-    "Galaxy Gains",
-    "Golden Rebirth",
-    "Jungle Swift",
-    "Muscle Mind",
-    "x2 Chest Rewards",
-    "x2 Quest Rewards"
-}
-
-local autoUltimateToggles = {}
-
-for _, ultimate in ipairs(ultimateOptions) do
-    autoUltimateToggles[ultimate] = false
-    UltimateTab:Toggle({
-        Title = "Auto Buy " .. ultimate,
-        Callback = function(state)
-            autoUltimateToggles[ultimate] = state
-            if state then
-                task.spawn(function()
-                    while autoUltimateToggles[ultimate] do
-                        pcall(function()
-                            ReplicatedStorage.rEvents.ultimatesRemote:InvokeServer("upgradeUltimate", ultimate)
-                        end)
-                        task.wait(1)
-                    end
-                end)
-            end
-        end
-    })
-end
-
--- Rebirth Tab
-local ComboTab = PushRebb:Tab({Title = "Combo", Icon = "diamond-plus"})
-
-local unlockGp = ComboTab:Section({
-Title = "Farm Tools",
-Icon = "circle-dollar-sign"})
-
-ComboTab:Button({
-    Title = "Unlock Gamepass AutoLift",
-    Desc = "Unlock Free No Robux",
-    Callback = function()
-        local gamepassFolder = ReplicatedStorage.gamepassIds
-        for _, gamepass in pairs(gamepassFolder:GetChildren()) do
-            local value = Instance.new("IntValue")
-            value.Name = gamepass.Name
-            value.Value = gamepass.Value
-            value.Parent = player.ownedGamepasses
-        end
-        WindUI:Notify({Title = "Success", Content = "AutoLift Gamepass Unlocked!"})
-    end
-})
-
--- Gym farm Section
-local Farmingg = ComboTab:Section({
-Title = "Farm Tools",
-Icon = "swords"})
-
-local muscleEvent = player:WaitForChild("muscleEvent")
-
-local function equipTool(toolName)
-    local backpack = player:FindFirstChild("Backpack")
-    local char = player.Character
-    if backpack and char and char:FindFirstChild("Humanoid") then
-        local tool = backpack:FindFirstChild(toolName)
-        if tool then
-            char.Humanoid:EquipTool(tool)
-        end
-    end
-end
-
-local function unequipTool(toolName)
-    local char = player.Character
-    if char then
-        local equipped = char:FindFirstChild(toolName)
-        if equipped then
-            equipped.Parent = player.Backpack
-        end
-    end
-end
-
-local function startAutoRep(flagName, toolName)
-    task.spawn(function()
-        while _G[flagName] do
-            local char = player.Character
-            if not char or not char:FindFirstChild("Humanoid") then
-                task.wait(0.2)
-                continue
-            end
-            if not char:FindFirstChild(toolName) then
-                equipTool(toolName)
-            end
-            muscleEvent:FireServer("rep")
-            task.wait(0.1)
-        end
-    end)
-end
-
-player.CharacterAdded:Connect(function()
-    task.wait(1.5)
-    for _, info in ipairs({
-        {flag = "AutoWeight", tool = "Weight"},
-        {flag = "AutoPushups", tool = "Pushups"},
-        {flag = "AutoHandstands", tool = "Handstands"},
-        {flag = "AutoSitups", tool = "Situps"},
-    }) do
-        if _G[info.flag] then
-            equipTool(info.tool)
-            startAutoRep(info.flag, info.tool)
-        end
-    end
-end)
-
--- Auto tool toggles
-local toolConfigs = {
-    {"Auto Weight", "AutoWeight", "Weight", "Do lifting automatically"},
-    {"Auto Pushups", "AutoPushups", "Pushups", "Do push-ups automatically"},
-    {"Auto Handstands", "AutoHandstands", "Handstands", "Do hand-stands automatically"},
-    {"Auto Situps", "AutoSitups", "Situps", "Do sit-ups automatically"}
-}
-
-for _, tool in ipairs(toolConfigs) do
-    ComboTab:Toggle({
-        Title = tool[1],
-        Callback = function(Value)
-            _G[tool[2]] = Value
-            if Value then
-                equipTool(tool[3])
-                startAutoRep(tool[2], tool[3])
-            else
-                unequipTool(tool[3])
-            end
-        end
-    })
-end
-
--- Gym farm Section
-local FarmingCombo = ComboTab:Section({
-Title = "Combo Jungle",
-Icon = "diamond-plus"})
-
-local doPushups = false
-local doSitups = false
-local doHandstands = false
-local durabilityNeeded = 10000000
-
-local function punchRock()
-    local char = player.Character
-    local bp = player.Backpack
-    local humanoid = char and char:FindFirstChildOfClass("Humanoid")
-
-    if char and bp and humanoid then
-        local punch = bp:FindFirstChild("Punch")
-        if punch and not char:FindFirstChild("Punch") then
-            humanoid:EquipTool(punch)
-        end
-
-        local inst = char:FindFirstChild("Punch")
-        if inst and inst:FindFirstChild("attackTime") then
-            inst.attackTime.Value = 0.001
-            muscleEvent:FireServer("punch", "rightHand")
-            muscleEvent:FireServer("punch", "leftHand")
-            inst:Activate()
-        end
-    end
-end
-
-local function tryRockTouch()
-    local char = player.Character
-    if player.Durability.Value >= durabilityNeeded then
-        for _, v in pairs(workspace.machinesFolder:GetDescendants()) do
-            if v.Name == "neededDurability" and v.Value == durabilityNeeded then
-                local rock = v.Parent:FindFirstChild("Rock")
-                if rock and char and char:FindFirstChild("RightHand") and char:FindFirstChild("LeftHand") then
-                    firetouchinterest(rock, char.RightHand, 0)
-                    firetouchinterest(rock, char.RightHand, 1)
-                    firetouchinterest(rock, char.LeftHand, 0)
-                    firetouchinterest(rock, char.LeftHand, 1)
-                    punchRock()
-                end
-            end
-        end
-    end
-end
-
-local function doRep(toolName)
-    local char = player.Character or player.CharacterAdded:Wait()
-    local humanoid = char:FindFirstChildOfClass("Humanoid")
-    local bp = player.Backpack
-
-    if not char:FindFirstChild(toolName) then
-        local tool = bp:FindFirstChild(toolName)
-        if tool and humanoid then
-            humanoid:EquipTool(tool)
-        end
-    end
-
-    muscleEvent:FireServer("rep")
-end
-
-task.spawn(function()
-    while true do
-        if doPushups then
-            doRep("Pushups")
-            tryRockTouch()
-        end
-        if doSitups then
-            doRep("Situps")
-            tryRockTouch()
-        end
-        if doHandstands then
-            doRep("Handstands")
-            tryRockTouch()
-        end
-        task.wait(0.1)
-    end
-end)
-
-player.CharacterAdded:Connect(function(char)
-    char:WaitForChild("HumanoidRootPart")
-    task.wait(2)
-    warn("[RESPAWN] Player respawned â€” OP FARM auto-resumed.")
-end)
-
-ComboTab:Toggle({
-    Title = "Pushups + Jungle Rock",
-    Callback = function(state)
-        doPushups = state
-    end
-})
-
-ComboTab:Toggle({
-    Title = "Situps + Jungle Rock",
-    Callback = function(state)
-        doSitups = state
-    end
-})
-
-ComboTab:Toggle({
-    Title = "Handstands + Jungle Rock",
-    Callback = function(state)
-        doHandstands = state
-    end
-})
-
-local GlitchEra = Window:Section({
-    Title = "Push Glitch",
-})
+local Part1 = Window:Tab({
+Title = "━═━═━═━═━"})
+
+local Part2 = Window:Tab({
+Title = "━═━═━═━═━"})
 
 -- Farming Tab
-local farmTab = GlitchEra:Tab({Title = "Glitch Farm", Icon = "shield-check"})
+local farmTab = Window:Tab({
+Title = "━═>Glitch<═━"})
 
 -- Gym farm Section
 local glitch h = farmTab:Section({
@@ -941,6 +341,62 @@ farmTab:Toggle({
     end
 })
 
+farmTab:Toggle({
+    Title = "Anti-AFK",
+    Callback = function(state)
+        if state then
+            local VirtualUser = game:GetService("VirtualUser")
+
+            _G.afkGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+            _G.afkGui.Name = "AntiAFKGui"
+            _G.afkGui.ResetOnSpawn = false
+
+            local timer = Instance.new("TextLabel", _G.afkGui)
+            timer.Size = UDim2.new(0, 200, 0, 30)
+            timer.Position = UDim2.new(1, -210, 0, -20)
+            timer.Text = "0:00:00"
+            timer.TextColor3 = Color3.fromRGB(255, 255, 255)
+            timer.Font = Enum.Font.GothamBold
+            timer.TextSize = 25
+            timer.BackgroundTransparency = 1
+            timer.TextTransparency = 0
+            
+            -- Outline untuk timer
+local timerStroke = Instance.new("UIStroke", timer)
+timerStroke.Thickness = 1
+timerStroke.Color = Color3.fromRGB(39, 39, 39)
+
+            local startTime = tick()
+
+            task.spawn(function()
+                while _G.afkGui and _G.afkGui.Parent do
+                    local elapsed = tick() - startTime
+                    local h = math.floor(elapsed / 3600)
+                    local m = math.floor((elapsed % 3600) / 60)
+                    local s = math.floor(elapsed % 60)
+                    timer.Text = string.format("%02d:%02d:%02d", h, m, s)
+                    task.wait(1)
+                end
+            end)
+            
+            _G.afkConnection = player.Idled:Connect(function()
+                VirtualUser:Button2Down(Vector2.new(), workspace.CurrentCamera.CFrame)
+                task.wait(1)
+                VirtualUser:Button2Up(Vector2.new(), workspace.CurrentCamera.CFrame)
+            end)
+        else
+            if _G.afkConnection then
+                _G.afkConnection:Disconnect()
+                _G.afkConnection = nil
+            end
+            if _G.afkGui then
+                _G.afkGui:Destroy()
+                _G.afkGui = nil
+            end
+        end
+    end
+})
+
 -- Gym farm Section
 local FarmingRock1 = farmTab:Section({
 Title = "Glitch Fast",
@@ -1034,12 +490,8 @@ for _, rock in ipairs(rocks) do
     })
 end
 
+local teleportTab = Window:Tab({Title = "━═Teleport═━"})
 
-
--- Teleport Tab
-local teleportTab = GlitchEra:Tab({Title = "Teleport", Icon = "map-pin"})
-
--- Gym farm Section
 local Teleport1 = teleportTab:Section({
 Title = "Teleportation Glitch",
 Icon = "radio-tower"})
@@ -1070,3 +522,9 @@ for _, location in ipairs(teleportLocations) do
         end
     })
 end
+
+local Part3 = Window:Tab({
+Title = "━═━═━═━═━"})
+
+local Part4 = Window:Tab({
+Title = "━═━═━═━═━"})
