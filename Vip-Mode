@@ -276,7 +276,7 @@ FarmTab:Toggle({
             task.spawn(function()
                 while getgenv().PushStrengthEnabled do
                     k("Swift Samurai")
-                    for y = 1, 10 do
+                    for y = 1, 100 do
                         c.muscleEvent:FireServer("rep")
                     end
                     task.wait()  -- Menambahkan wait untuk menghindari lag berlebih
