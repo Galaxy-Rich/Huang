@@ -331,6 +331,753 @@ farmTab:Toggle({
 })
 
 farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+ farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
+    Title = "Fast Punch",
+    Callback = function(bool)
+        _G.FastPunch = bool
+
+        local function startFastPunch()
+            if _G.FastPunchActive then return end
+            _G.FastPunchActive = true
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    if character then
+                        local punch = character:FindFirstChild("Punch") or player.Backpack:FindFirstChild("Punch")
+                        if punch then
+                            if punch:FindFirstChild("attackTime") then
+                                punch.attackTime.Value = 0
+                            end
+                            if not character:FindFirstChild("Punch") and character:FindFirstChild("Humanoid") then
+                                character.Humanoid:EquipTool(punch)
+                            end
+                        end
+                    end
+                    task.wait(0.0001)
+                end
+                _G.FastPunchActive = false
+            end)
+            
+            task.spawn(function()
+                while _G.FastPunch do
+                    local character = player.Character
+                    local muscleEvent = player:FindFirstChild("muscleEvent")
+                    
+                    if muscleEvent then
+                        muscleEvent:FireServer("punch", "rightHand")
+                        muscleEvent:FireServer("punch", "leftHand")
+                    end
+
+                    if character then
+                        local punchTool = character:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool:Activate()
+                        end
+                    end
+
+                    task.wait() 
+                end
+            end)
+        end
+
+        local function stopFastPunch()
+            _G.FastPunch = false
+            local character = player.Character
+            if character then
+                local equipped = character:FindFirstChild("Punch")
+                if equipped and equipped:FindFirstChild("attackTime") then
+                    equipped.attackTime.Value = 0.35
+                end
+                if equipped then
+                    equipped.Parent = player.Backpack
+                end
+            end
+            local backpackTool = player.Backpack:FindFirstChild("Punch")
+            if backpackTool and backpackTool:FindFirstChild("attackTime") then
+                backpackTool.attackTime.Value = 0.35
+            end
+        end
+        
+        if bool then
+            startFastPunch()
+            player.CharacterAdded:Connect(function(newChar)
+                newChar:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                if _G.FastPunch then
+                    startFastPunch()
+                end
+            end)
+        else
+            stopFastPunch()
+        end
+    end
+})
+
+farmTab:Toggle({
     Title = "Hide Frame",
     Callback = function(bool)
         for _, obj in pairs(ReplicatedStorage:GetChildren()) do
