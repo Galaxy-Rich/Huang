@@ -235,20 +235,25 @@ local Farmingg = rebirthTab:Section({
 Title = "Farming",
 Icon = "dumbbell"})
 
+local runningEgg = false
 local function activateProteinEgg()
-    local tool = player.Character:FindFirstChild("Protein Egg") or player.Backpack:FindFirstChild("Protein Egg")
-    if tool then
-        muscleEvent:FireServer("proteinEgg", tool)
+    local character = player.Character
+    if not character then return end 
+    
+    local tool = character:FindFirstChild("Protein Egg") or player.Backpack:FindFirstChild("Protein Egg")
+    
+    -- Pastikan muscleEvent diakses dengan benar melalui player atau ReplicatedStorage sesuai struktur game
+    local mEvent = player:FindFirstChild("muscleEvent")
+    if tool and mEvent then
+        mEvent:FireServer("proteinEgg", tool)
     end
 end
 
-local running = false
-
 task.spawn(function()
     while true do
-        if running then
+        if runningEgg then
             activateProteinEgg()
-            task.wait(1800)
+            task.wait(1800) -- 30 menit
         else
             task.wait(1)
         end
@@ -257,9 +262,9 @@ end)
 
 rebirthTab:Toggle({
     Title = "Auto Eat Egg | 30mins",
-    Desc = " Get 2x Strength | 30 Minute",
+    Desc = "Get 2x Strength Automatically",
     Callback = function(state)
-        running = state
+        runningEgg = state
         if state then
             activateProteinEgg()
         end
