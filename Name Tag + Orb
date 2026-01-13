@@ -1,0 +1,209 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
+
+-- ================= CONFIG / DATABASE =================
+local OrbTargetUsername = "IG_ZorVex"
+
+local UsernamesToHide = {
+    ["IG_ZorVex"] = true,
+    ["STNodddP11"] = true,
+    ["Dxf_nann"] = true,
+    ["Likoyou"] = true,
+    ["Immajr"] = true
+}
+
+local TargetUsers = { 
+    ["stnodddp11"] = "Vz Black Hole",
+    ["ig_zorvex"] = "ZorVex",
+    ["dxf_nann"] = "Member Vz",
+    ["likoyou"] = "Member Vz",
+    ["immajr"] = "Member Vz",
+} 
+
+local FLASH_FRAMES = {
+    "rbxassetid://119168555365494", "rbxassetid://83885403112944", "rbxassetid://77008002763258",
+    "rbxassetid://109170439426343", "rbxassetid://113084843821827", "rbxassetid://97998403067528",
+    "rbxassetid://130290181657764", "rbxassetid://135250237377985", "rbxassetid://90607731864067",
+    "rbxassetid://113242519147671", "rbxassetid://86152906890112", "rbxassetid://84708722282872",
+    "rbxassetid://139061388843578", "rbxassetid://103336348887181", "rbxassetid://99556256134454",
+    "rbxassetid://119612758627653", "rbxassetid://87039403472536", "rbxassetid://83864916498543",
+    "rbxassetid://119477098495745", "rbxassetid://70902442708015", "rbxassetid://77901967912029",
+    "rbxassetid://112423411011666", "rbxassetid://137681241290268", "rbxassetid://140047123562573",
+    "rbxassetid://123499761219760", "rbxassetid://132958590067223", "rbxassetid://132763864754275",
+    "rbxassetid://128062457854357", "rbxassetid://98514711252185", "rbxassetid://111520288804744",
+    "rbxassetid://113655118041135", "rbxassetid://89995082849835", "rbxassetid://86694279046221",
+    "rbxassetid://134368949107370", "rbxassetid://110114302713445", "rbxassetid://126216454532702",
+    "rbxassetid://98712947152068", "rbxassetid://73978408107559", "rbxassetid://123828035609997",
+    "rbxassetid://86000895903858", "rbxassetid://83432888072516", "rbxassetid://84331840354577",
+    "rbxassetid://91244975129638", "rbxassetid://120082371711780", "rbxassetid://121602184047415",
+    "rbxassetid://75243982066321", "rbxassetid://93223628730129", "rbxassetid://115693502888120",
+    "rbxassetid://100584577550351", "rbxassetid://130273311540764",
+}
+
+-- ================= TEMPLATES & TWEEN INFO =================
+local TWEEN_INFO_IN = TweenInfo.new(0.05, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local TWEEN_INFO_OUT = TweenInfo.new(0.085, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+local BASE_COLOR = Color3.new(1, 1, 1)
+
+local image_billboard_template = Instance.new("BillboardGui")
+image_billboard_template.Name = "imageESP_Flash"
+image_billboard_template.AlwaysOnTop = true
+image_billboard_template.Size = UDim2.new(11, 0, 11, 0)
+image_billboard_template.StudsOffset = Vector3.new(0, 5.3, 0)
+
+local imgA = Instance.new("ImageLabel", image_billboard_template)
+imgA.Name = "ImageA"; imgA.BackgroundTransparency = 1; imgA.Size = UDim2.new(1, 0, 1, 0); imgA.ImageColor3 = BASE_COLOR; imgA.ScaleType = Enum.ScaleType.Fit
+
+local imgB = imgA:Clone()
+imgB.Name = "ImageB"; imgB.ImageTransparency = 1; imgB.Parent = image_billboard_template
+
+local text_billboard_template = Instance.new("BillboardGui")
+text_billboard_template.Name = "textESP_MemberVz"
+text_billboard_template.AlwaysOnTop = true
+text_billboard_template.Size = UDim2.new(6, 0, 2.5, 0)
+text_billboard_template.StudsOffset = Vector3.new(0, 4, 0)
+
+local txtLabel = Instance.new("TextLabel", text_billboard_template)
+txtLabel.Name = "CustomText"
+txtLabel.BackgroundTransparency = 1
+txtLabel.Size = UDim2.new(1, 0, 1, 0)
+txtLabel.Font = Enum.Font.SourceSansBold
+txtLabel.TextScaled = true
+txtLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+txtLabel.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+txtLabel.TextStrokeTransparency = 0
+
+-- ================= LOGIC FUNCTIONS =================
+
+local function HideNameTag(character)
+    local head = character:WaitForChild("Head", 5)
+    if head then
+        for _, child in ipairs(head:GetChildren()) do
+            if child:IsA("BillboardGui") then child.Enabled = false end
+        end
+    end
+end
+
+local function startFlashTransition(imageA, imageB)
+    local currentFrameIndex = 1
+    local totalFrames = #FLASH_FRAMES
+    while imageA and imageA.Parent do
+        currentFrameIndex = (currentFrameIndex % totalFrames) + 1
+        imageB.Image = FLASH_FRAMES[currentFrameIndex]
+        TweenService:Create(imageB, TWEEN_INFO_IN, {ImageTransparency = 0}):Play()
+        local outA = TweenService:Create(imageA, TWEEN_INFO_OUT, {ImageTransparency = 1})
+        outA:Play(); outA.Completed:Wait()
+
+        currentFrameIndex = (currentFrameIndex % totalFrames) + 1
+        imageA.Image = FLASH_FRAMES[currentFrameIndex]
+        TweenService:Create(imageA, TWEEN_INFO_IN, {ImageTransparency = 0}):Play()
+        local outB = TweenService:Create(imageB, TWEEN_INFO_OUT, {ImageTransparency = 1})
+        outB:Play(); outB.Completed:Wait()
+    end
+end
+
+local function setupESP(character)
+    local player = Players:GetPlayerFromCharacter(character)
+    local Head = character:WaitForChild("Head", 5)
+    if not player or not Head then return end
+    
+    local lowerName = player.Name:lower()
+    local customName = TargetUsers[lowerName]
+    if not customName then return end
+
+    if lowerName == "ig_zorvex" then
+        local clone = image_billboard_template:Clone()
+        clone.Parent = Head
+        task.spawn(startFlashTransition, clone.ImageA, clone.ImageB)
+    else
+        local clone = text_billboard_template:Clone()
+        clone.CustomText.Text = customName
+        clone.Parent = Head
+    end
+end
+
+-- MODIFIKASI: Orb mengikuti Target (OrbTargetUsername)
+local function startOrbSystemForTarget(targetPlayer)
+    local function applyOrbs(character)
+        local HRP = character:WaitForChild("HumanoidRootPart", 5)
+        if not HRP then return end
+
+        -- Hapus orb lama jika ada
+        for _, obj in pairs(workspace:GetChildren()) do 
+            if obj.Name:find("Orb_" .. targetPlayer.Name) then obj:Destroy() end 
+        end
+
+        local NarutoOrbs = {}
+        for i = 1, 7 do
+            local orb = Instance.new("Part", workspace)
+            orb.Name = "Orb_" .. targetPlayer.Name .. "_" .. i
+            orb.Shape = Enum.PartType.Ball
+            orb.Size = Vector3.new(2.6, 2.6, 2.6)
+            orb.Color = Color3.fromRGB(255, 255, 255)
+            orb.Material = Enum.Material.Neon
+            orb.CanCollide = false
+            orb.Anchored = true
+            
+            local aura = Instance.new("ParticleEmitter", orb)
+            aura.Texture = "rbxassetid://243098098"
+            aura.Color = ColorSequence.new(Color3.fromRGB(0, 0, 0))
+            aura.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.5), NumberSequenceKeypoint.new(1, 1)})
+            aura.Size = NumberSequence.new(4, 9)
+            aura.Lifetime = NumberRange.new(0.5, 1)
+            aura.Rate = 80
+            aura.Speed = NumberRange.new(1, 3)
+            
+            table.insert(NarutoOrbs, {Orb = orb, Offset = (i/7)*math.pi*2})
+        end
+
+        local conn; conn = RunService.RenderStepped:Connect(function()
+            if not character or not character.Parent or not HRP.Parent then 
+                for _, data in ipairs(NarutoOrbs) do data.Orb:Destroy() end
+                conn:Disconnect(); return 
+            end
+            local t = tick()
+            for _, data in ipairs(NarutoOrbs) do
+                local angle = data.Offset + (t * 1.2)
+                local targetPos = HRP.Position + (HRP.CFrame.LookVector * -3.5) + (HRP.CFrame.RightVector * math.cos(angle) * 6) + (HRP.CFrame.UpVector * (math.sin(angle) * 6 + 2.5))
+                data.Orb.Position = data.Orb.Position:Lerp(targetPos, 0.15)
+            end
+        end)
+    end
+
+    targetPlayer.CharacterAdded:Connect(applyOrbs)
+    if targetPlayer.Character then applyOrbs(targetPlayer.Character) end
+end
+
+-- ================= MAIN INITIALIZATION =================
+
+local function ProcessPlayer(player)
+    -- Pantau Spawn Karakter
+    player.CharacterAdded:Connect(function(character)
+        -- Sembunyikan Nama jika ada di list
+        if UsernamesToHide[player.Name] then
+            task.delay(0.8, function() HideNameTag(character) end)
+        end
+        
+        -- Pasang ESP
+        task.delay(1.5, function() setupESP(character) end)
+    end)
+
+    -- Jika karakter sudah ada saat script dijalankan
+    if player.Character then
+        if UsernamesToHide[player.Name] then HideNameTag(player.Character) end
+        setupESP(player.Character)
+    end
+
+    -- Inisialisasi Orb jika player ini adalah target
+    if player.Name == OrbTargetUsername then
+        startOrbSystemForTarget(player)
+    end
+end
+
+-- Jalankan untuk semua player yang ada dan yang akan masuk
+Players.PlayerAdded:Connect(ProcessPlayer)
+for _, p in ipairs(Players:GetPlayers()) do ProcessPlayer(p) end
+
+print("[System] Integrated Script Active. Orbs targeting: " .. OrbTargetUsername)
