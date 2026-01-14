@@ -1,0 +1,43 @@
+local function getYourHWID()
+    return (gethwid and gethwid()) or (delta and delta.gethwid and delta.gethwid())
+end
+
+local function showNotification(message)
+    local notifyGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+    local frame = Instance.new("Frame", notifyGui)
+    frame.Size = UDim2.new(0, 220, 0, 40)
+    frame.Position = UDim2.new(1, 0, 1, -50)
+    frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    frame.BackgroundTransparency = 0.3
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
+
+    local stroke = Instance.new("UIStroke", frame)
+    stroke.Color = Color3.fromRGB(0, 0, 0)
+    stroke.Thickness = 1
+    stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+    local label = Instance.new("TextLabel", frame)
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = message
+    label.TextColor3 = Color3.fromRGB(0, 0, 0)
+    label.Font = Enum.Font.GothamBold
+    label.TextSize = 13
+
+    frame:TweenPosition(UDim2.new(1, -230, 1, -50), "Out", "Quad", 0.3, true)
+    task.wait(4)
+    frame:TweenPosition(UDim2.new(1, 0, 1, -50), "In", "Quad", 0.3, true)
+    task.delay(0.3, function() notifyGui:Destroy() end)
+end
+
+local hwid = getYourHWID()
+if hwid and hwid ~= "" then
+    if setclipboard then
+        setclipboard(hwid)
+        showNotification("HWID BERHASIL DISALIN")
+    else
+        showNotification("GAGAL SALIN HWID")
+    end
+else
+    showNotification("HWID TIDAK DITEMUKAN")
+end
