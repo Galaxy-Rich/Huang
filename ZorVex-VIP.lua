@@ -83,6 +83,6 @@ if isZorVex then
     
 else
     -- Jika tidak terdaftar (Teks akan berwarna Merah)
-    displayNotification("Not Vz\nScript Not Active", true)
-    warn("HWID tidak terdaftar di database manapun.")
+    displayNotification("Not VIP\nScript Not Active", true)
+    warn("Khusus VIP")
 end
