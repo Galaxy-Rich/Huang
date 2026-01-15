@@ -178,7 +178,7 @@ Title = "Farm Tools",
 Icon = "circle-dollar-sign"})
 
 farmPlusTab:Button({
-    Title = "Unlock Gamepass AutoLift",
+    Title = "Unlock Gamepass Trial",
     Desc = "Unlock Free No Robux",
     Locked = true,
         LockedTitle = "VIP Only",
