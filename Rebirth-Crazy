@@ -69,43 +69,42 @@ Window:EditOpenButton({
     Enabled = false
 })
 
----------------------------------------------------------
---             LOGIKA TOMBOL SERET (UI BUTTON)
----------------------------------------------------------
-
+-- Bagian UI Button yang sudah dimodifikasi untuk Posisi Tengah (HP/DPI Friendly)
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "UIBUTTON"
 ScreenGui.Parent = game.CoreGui
+ScreenGui.IgnoreGuiInset = true -- Mengabaikan bar atas agar benar-benar di tengah
+
 local ImgBtn = Instance.new("ImageButton")
 ImgBtn.Parent = ScreenGui
-ImgBtn.Size = UDim2.new(0, 60, 0, 60)
-ImgBtn.Position = UDim2.new(0, 500, 0, 10) -- Pindahkan ke posisi yang lebih terlihat (kiri atas)
+ImgBtn.Size = UDim2.new(0, 70, 0, 70)
+ImgBtn.AnchorPoint = Vector2.new(1, 0) -- Menentukan titik pusat di tengah tombol
+ImgBtn.Position = UDim2.new(0.9, -20, 0, 50) -- Koordinat 0.5 berarti 50% layar (Tengah)
 ImgBtn.BackgroundTransparency = 1
 ImgBtn.Image = "rbxassetid://88635292278521" 
 ImgBtn.ZIndex = 9999
+
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 15)
 UICorner.Parent = ImgBtn
-local isOpen = true -- Status awal: menu terbuka, tombol akan menutupnya saat diklik
+local isOpen = true
 
--- Fungsi Klik: Mengganti simulasi tombol menjadi Toggling Window
 ImgBtn.MouseButton1Click:Connect(function()
     local shrink = TweenService:Create(ImgBtn, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-        Size = UDim2.new(0, 55, 0, 55)
+        Size = UDim2.new(0, 60, 0, 60)
     })
     local grow = TweenService:Create(ImgBtn, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-        Size = UDim2.new(0, 60, 0, 60)
+        Size = UDim2.new(0, 70, 0, 70)
     })
     shrink:Play()
     shrink.Completed:Wait()
     grow:Play()
     
-    -- TOGGLE: Buka/Tutup Jendela Menu WindUI
     Window:Toggle()
     isOpen = not isOpen
 end)
 
--- Logika Seret (Dragging)
+-- Sistem Dragging (Tetap berfungsi jika ingin dipindah manual)
 local dragging = false
 local dragInput, dragStart, startPos
 local function update(input)
