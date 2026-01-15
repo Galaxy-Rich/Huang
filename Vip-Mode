@@ -69,16 +69,21 @@ Window:EditOpenButton({
     Enabled = false
 })
 
+-- Bagian UI Button yang sudah dimodifikasi untuk Posisi Tengah (HP/DPI Friendly)
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "UIBUTTON"
 ScreenGui.Parent = game.CoreGui
+ScreenGui.IgnoreGuiInset = true -- Mengabaikan bar atas agar benar-benar di tengah
+
 local ImgBtn = Instance.new("ImageButton")
 ImgBtn.Parent = ScreenGui
 ImgBtn.Size = UDim2.new(0, 70, 0, 70)
-ImgBtn.Position = UDim2.new(0, 850, 0, 10)
+ImgBtn.AnchorPoint = Vector2.new(1, 0) -- Menentukan titik pusat di tengah tombol
+ImgBtn.Position = UDim2.new(0.9, -20, 0, 50) -- Koordinat 0.5 berarti 50% layar (Tengah)
 ImgBtn.BackgroundTransparency = 1
 ImgBtn.Image = "rbxassetid://88635292278521" 
 ImgBtn.ZIndex = 9999
+
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 15)
 UICorner.Parent = ImgBtn
@@ -99,6 +104,7 @@ ImgBtn.MouseButton1Click:Connect(function()
     isOpen = not isOpen
 end)
 
+-- Sistem Dragging (Tetap berfungsi jika ingin dipindah manual)
 local dragging = false
 local dragInput, dragStart, startPos
 local function update(input)
