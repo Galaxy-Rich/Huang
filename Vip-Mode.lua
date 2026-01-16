@@ -440,6 +440,20 @@ FarmTab:Toggle({
 })
 
 FarmTab:Toggle({
+    Title = "Auto Size 10",
+    Callback = function(bool)
+        _G.autoSizeActive = bool
+        if bool then
+            task.spawn(function()
+                while _G.autoSizeActive and task.wait() do
+                    ReplicatedStorage.rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 10)
+                end
+            end)
+        end
+    end
+})
+
+FarmTab:Toggle({
     Title = "Auto Size 2",
     Callback = function(bool)
         _G.autoSizeActive = bool
