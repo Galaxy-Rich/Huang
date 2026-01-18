@@ -681,7 +681,7 @@ VIP_Tab1:Toggle({
             local player = game.Players.LocalPlayer
             local startCFrame = CFrame.new(-0.00503921509, 546.549805, 0.00447463989, 0.995843053, -1.7234008e-08, 0.09108603, 1.22618156e-08, 1, 5.5147467e-08, -0.09108603, -5.38013403e-08, 0.995843053)
             local radius = 1100
-            local speed = 0.5      
+            local speed = 1.2      
             local angle = 0        
             local centerPoint = startCFrame.Position 
             local emoteList = {["Godlike Emote"] = 106493972274585}
